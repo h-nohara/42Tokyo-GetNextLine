@@ -13,7 +13,8 @@ int main(){
 		printf("res = %d\n", res);
 		if (res == -1)
 			break;
-		printf("<%s>\n", *line);
+		printf("############# <%s>\n", *line);
+		free(*line);
 		if (res == 0)
 			break;
 	}
@@ -24,6 +25,8 @@ int main(){
     /* printf("%d\n",get_next_line(fd, &line));// 0 */
     /* printf("%s\n",&line);// zennitsu */
     close(fd);
+
+	system("leaks a.out");
 
 	return (0);
 }
