@@ -8,6 +8,6 @@ int check_buff_newline(char *buff, char **sbuff, char **line);
 int move_sbuff(char *buff, char **sbuff, char **line, int res_read);
 int move_buff(char **buff, char **sbuff);
 char *ft_slice(char *s, int start_index, int len);
-int free_two(char *buff, char **static_buff, int n);
-void init_buff(char *buff, unsigned int len);
+int free_two(char **buff, char ***sbuff, int n);
+int init_buff(char **buff, char ***sbuff, unsigned int len, int flag);
 char *ft_concat(char *s1, char *s2);
