@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnohara <hnohara@student.42tokyo.j>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/03 15:36:20 by hnohara           #+#    #+#             */
+/*   Updated: 2021/04/03 15:58:43 by hnohara          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-int get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	char *buff;
-	static char **static_buff;
-	int res;
+	char			*buff;
+	static	char	**static_buff;
+	int				res;
 
 	if (init_buff(&buff, &static_buff, BUFFER_SIZE, 1) == -1)
 	{
@@ -34,10 +46,10 @@ int get_next_line(int fd, char **line)
 	return (res);
 }
 
-int check_sbuff_newline(char **sbuff, char **line)
+int	check_sbuff_newline(char **sbuff, char **line)
 {
-	int i;
-	char *s;
+	int		i;
+	char	*s;
 
 	if (sbuff && *sbuff)
 	{
@@ -62,10 +74,10 @@ int check_sbuff_newline(char **sbuff, char **line)
 	return (0);
 }
 
-int check_buff_newline(char *buff, char **sbuff, char **line)
+int	check_buff_newline(char *buff, char **sbuff, char **line)
 {
-	int i;
-	char *tmp_s;
+	int		i;
+	char	*tmp_s;
 
 	i = 0;
 	while (buff[i] && (buff[i] != '\n'))
@@ -91,7 +103,7 @@ int check_buff_newline(char *buff, char **sbuff, char **line)
 	return (1);
 }
 
-int move_sbuff(char **sbuff, char **line, int res_read)
+int	move_sbuff(char **sbuff, char **line, int res_read)
 {
 	if (sbuff && *sbuff)
 	{
@@ -104,9 +116,9 @@ int move_sbuff(char **sbuff, char **line, int res_read)
 	return (res_read);
 }
 
-int move_buff(char **buff, char **sbuff)
+int	move_buff(char **buff, char **sbuff)
 {
-	char *tmp_s;
+	char	*tmp_s;
 
 	if (sbuff && *sbuff)
 	{

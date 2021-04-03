@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnohara <hnohara@student.42tokyo.j>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/03 15:38:20 by hnohara           #+#    #+#             */
+/*   Updated: 2021/04/03 15:40:40 by hnohara          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char *ft_concat(char *s1, char *s2)
+char	*ft_concat(char *s1, char *s2)
 {
-	char *res;
-	int i;
-	int j;
+	char	*res;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (s1[i])
@@ -14,22 +26,22 @@ char *ft_concat(char *s1, char *s2)
 		i++;
 	res = (char*)malloc(sizeof(char) * (i + 1));
 	if (!res)
-		return NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1[i])
 		res[j++] = s1[i++];
- 	i = 0;
+	i = 0;
 	while (s2[i])
 		res[j++] = s2[i++];
 	res[j] = '\0';
-	return res;
+	return (res);
 }
 
-char *ft_slice(char *s, int start_index, int len)
+char	*ft_slice(char *s, int start_index, int len)
 {
-	int i;
-	char *res;
+	int		i;
+	char	*res;
 
 	if (len == -1)
 	{
@@ -50,7 +62,7 @@ char *ft_slice(char *s, int start_index, int len)
 	return (res);
 }
 
-int free_two(char **buff, char ***static_buff, int n)
+int		free_two(char **buff, char ***static_buff, int n)
 {
 	if (*buff)
 		free(*buff);
@@ -63,10 +75,10 @@ int free_two(char **buff, char ***static_buff, int n)
 	return (n);
 }
 
-int init_buff(char **buff, char ***sbuff, size_t len, int flag)
+int		init_buff(char **buff, char ***sbuff, size_t len, int flag)
 {
-	unsigned int size;
-	size_t i;
+	unsigned	int	size;
+	size_t			i;
 
 	size = len + 1;
 	if (flag == 1)
