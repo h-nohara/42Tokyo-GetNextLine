@@ -7,6 +7,9 @@ int main(){
     int fd;
 
 	fd = open("kimetsu.txt", O_RDONLY);
+	/* fd = open("empty.txt", O_RDONLY); */
+	/* fd = 1; */
+	line = (char**)malloc(sizeof(char*));
 
 	while (1){
 		res = get_next_line(fd, line);

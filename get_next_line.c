@@ -15,13 +15,13 @@ int get_next_line(int fd, char **line)
 	{
 		if (init_buff(&buff, &static_buff, BUFFER_SIZE, 0) == -1)
 			break ;
-		res = check_sbuff_newline(buff, static_buff, line);
+		res = check_sbuff_newline(static_buff, line);
 		if (res != 0)
 			break ;
 		res = read(fd, buff, BUFFER_SIZE);
 		if (res == 0 || res == -1)
 		{
-			res = move_sbuff(buff, static_buff, line, res);
+			res = move_sbuff(static_buff, line, res);
 			break ;
 		}
 		res = check_buff_newline(buff, static_buff, line);
@@ -34,19 +34,19 @@ int get_next_line(int fd, char **line)
 	return (res);
 }
 
-int check_sbuff_newline(char *buff, char **sbuff, char **line)
+int check_sbuff_newline(char **sbuff, char **line)
 {
 	int i;
 	char *s;
 
-	if (sbuff && *sbuff) /* static_buffに改行があった場合：readせずに終了 */
+	if (sbuff && *sbuff)
 	{
 		i = 0;
 		while ((*sbuff)[i])
 		{
 			if ((*sbuff)[i] == '\n')
 			{
-				*line = ft_slice(*sbuff, 0, i); /* *lineに代入する前にfreeしなくて大丈夫？ */
+				*line = ft_slice(*sbuff, 0, i);
 				if (!(*line))
 					return (-1);
 				s = ft_slice(*sbuff, i + 1, -1);
@@ -86,13 +86,12 @@ int check_buff_newline(char *buff, char **sbuff, char **line)
 		*line = tmp_s;
 	free(*sbuff);
 	*sbuff = ft_slice(buff, i + 1, -1);
-	/* free(buff); */
 	if (!(*sbuff))
 		return (-1);
 	return (1);
 }
 
-int move_sbuff(char *buff, char **sbuff, char **line, int res_read)
+int move_sbuff(char **sbuff, char **line, int res_read)
 {
 	if (sbuff && *sbuff)
 	{
@@ -109,7 +108,6 @@ int move_buff(char **buff, char **sbuff)
 {
 	char *tmp_s;
 
-	/* もし改行がなかったら：static_buffにbuffを移す（もしstatic_buffが存在してたら結合してから移す) */
 	if (sbuff && *sbuff)
 	{
 		tmp_s = ft_concat(*sbuff, *buff);
@@ -126,98 +124,4 @@ int move_buff(char **buff, char **sbuff)
 		*sbuff = tmp_s;
 	}
 	return (0);
-}
-
-char *ft_slice(char *s, int start_index, int len)
-{
-	int i;
-	char *res;
-
-	if (len == -1)
-	{
-		len = 0;
-		while (s[start_index + len])
-			++len;
-	}
-	res = (char*)malloc(len + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		res[i] = s[start_index + i];
-		++i;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-int free_two(char **buff, char ***static_buff, int n)
-{
-	if (*buff)
-		free(*buff);
-	if (*static_buff && n != 1)
-	{
-		if (**static_buff)
-			free(**static_buff);
-		free(*static_buff);
-	}
-	return (n);
-}
-
-
-int init_buff(char **buff, char ***sbuff, unsigned int len, int flag)
-{
-	unsigned int size;
-	int i;
-
-	if (flag == 1)
-	{
-		*buff = (char*)malloc(sizeof(char) * (len + 1));
-		if (!(*buff))
-			return (-1);
-	}
-	i = 0;
-	while (i < len + 1)
-		(*buff)[i++] = '\0';
-	if (flag == 1 && *sbuff == NULL)
-	{
-		*sbuff = (char**)malloc(sizeof(char*));
-		if (!(*sbuff))
-			return (-1);
-		**sbuff = (char*)malloc(sizeof(char) * 1);
-		if (!(**sbuff))
-			return (-1);
-		(**sbuff)[0] = '\0';
-	}
-	return (0);
-}
-
-char *ft_concat(char *s1, char *s2)
-{
-	char *res;
-	int i;
-	int j;
-
-	i = 0;
-	while (s1[i])
-		i++;
-	j = 0;
-	while (s2[j++])
-		i++;
-	res = (char*)malloc(sizeof(char) * (i + 1));
-	if (!res)
-		return NULL;
-	i = 0;
-	j = 0;
-	while (s1[i])
-		res[j++] = s1[i++];
- 	i = 0;
-	while (s2[i]){
-		/* printf("j = %d\n", j); */
-		/* printf("s2[%d] = %c\n", i, s2[i]); */
-		res[j++] = s2[i++];
-	}
-	res[j] = '\0';
-	return res;
 }
