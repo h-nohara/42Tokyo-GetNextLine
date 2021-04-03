@@ -6,7 +6,7 @@
 /*   By: hnohara <hnohara@student.42tokyo.j>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:36:20 by hnohara           #+#    #+#             */
-/*   Updated: 2021/04/03 15:58:43 by hnohara          ###   ########.fr       */
+/*   Updated: 2021/04/03 17:03:33 by hnohara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	get_next_line(int fd, char **line)
 	static	char	**static_buff;
 	int				res;
 
+	if (BUFFER_SIZE <= 0)
+		return (-1);
 	if (init_buff(&buff, &static_buff, BUFFER_SIZE, 1) == -1)
 		return (free_two(&buff, &static_buff, -1));
 	while (1)
