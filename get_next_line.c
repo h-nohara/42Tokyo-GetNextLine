@@ -25,10 +25,8 @@ int	get_next_line(int fd, char **line)
 	}
 	while (1)
 	{
-		if (init_buff(&buff, &static_buff, BUFFER_SIZE, 0) == -1)
-			break ;
-		res = check_sbuff_newline(static_buff, line);
-		if (res != 0)
+		if ((res = init_buff(&buff, &static_buff, BUFFER_SIZE, 0)) == -1 || \
+		(res = check_sbuff_newline(static_buff, line)) != 0)
 			break ;
 		res = read(fd, buff, BUFFER_SIZE);
 		if (res == 0 || res == -1)
@@ -36,10 +34,8 @@ int	get_next_line(int fd, char **line)
 			res = move_sbuff(static_buff, line, res);
 			break ;
 		}
-		res = check_buff_newline(buff, static_buff, line);
-		if (res != 0)
-			break ;
-		if ((res = move_buff(&buff, static_buff)) == -1)
+		if ((res = check_buff_newline(buff, static_buff, line)) != 0 || \
+		(res = move_buff(&buff, static_buff)) == -1)
 			break ;
 	}
 	free_two(&buff, &static_buff, res);
